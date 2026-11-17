@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Géneros</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>Géneros</h1>
+  <nav>
+    <button data-view="discos" class="on">Discos</button>
+    <button data-view="taxonomia">Taxonomía</button>
+    <button data-view="jugar">Jugar</button>
+  </nav>
+  <div id="stats"></div>
+  <button id="btn-scan" title="Vuelve a leer las etiquetas de las bibliotecas (solo lo que cambió)">Escanear</button>
+</header>
+
+<main id="v-discos">
+  <section id="lista">
+    <div class="filtros">
+      <select id="f-root"><option value="">Todas</option></select>
+      <select id="f-status">
+        <option value="">Todos los estados</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="guardado">Guardados (sin escribir)</option>
+        <option value="escrito">Escritos</option>
+      </select>
+      <input id="f-q" type="search" placeholder="Buscar artista, disco, género, ruta…">
+    </div>
+    <div class="lote" id="lote" hidden>
+      <span id="lote-n"></span>
+      <button id="lote-escribir" title="Escribe en los ficheros los géneros ya guardados de los marcados">Escribir marcados</button>
+      <button id="lote-quitar">Desmarcar</button>
+    </div>
+    <table>
+      <thead><tr><th><input type="checkbox" id="sel-all" title="Marcar esta página (Mayús+clic en una casilla marca un rango)"></th><th>Artista</th><th>Disco / canción</th><th>Año</th><th>Géneros</th></tr></thead>
+      <tbody id="filas"></tbody>
+    </table>
+    <div class="pag"><button id="prev">‹</button><span id="pag-info"></span><button id="next">›</button></div>
+  </section>
+
+  <section id="editor" hidden>
+    <div class="cab">
+      <div><b id="e-titulo"></b><div id="e-ruta" class="dim"></div></div>
+      <span id="e-estado" class="estado"></span>
+    </div>
+    <div class="dim">En el fichero: <code id="e-raw"></code></div>
+
+    <h3>Géneros <small class="dim">(el primero es el supergénero; arrastra para ordenar)</small></h3>
+    <ol id="e-generos" class="chips orden"></ol>
+    <div class="anadir">
+      <input id="e-buscar" list="dl-generos" placeholder="Añadir género de la taxonomía…">
+      <datalist id="dl-generos"></datalist>
+    </div>
+    <div id="e-preview" class="preview"></div>
+    <div class="acciones">
+      <button id="e-guardar">Guardar</button>
+      <button id="e-escribir" class="prim">Guardar y escribir</button>
+    </div>
+
+    <h3>Propuestas <small class="dim">(azul: está en la taxonomía · gris: nuevo, clic para crearlo o asociarlo)</small></h3>
+    <div id="e-prop" class="chips"></div>
+  </section>
+</main>
+
+<main id="v-taxonomia" hidden>
+  <div class="tax-barra">
+    <input id="t-nuevo" placeholder="Nuevo supergénero…"><button id="t-crear">Crear</button>
+  </div>
+  <div id="tax"></div>
+</main>
+
+<main id="v-jugar" hidden>
+  <div id="j-stats" class="j-stats"></div>
+  <div class="j-semilla">
+    <select id="j-modo"><option value="genero">Por género</option><option value="artista">Por artista</option></select>
+    <select id="j-genero"></select>
+    <input id="j-artista" list="dl-artistas" placeholder="Artista…" hidden autocomplete="off">
+    <datalist id="dl-artistas"></datalist>
+    <select id="j-n"><option>12</option><option selected>24</option><option>48</option></select>
+    <button id="j-dame" class="prim">Dame un lote</button>
+  </div>
+  <section id="j-lote" hidden>
+    <div class="j-etiqueta">
+      <span id="j-cuenta" class="dim"></span>
+      <span class="j-esp"></span>
+      <button id="j-todos">Marcar todos</button><button id="j-ninguno">Ninguno</button>
+      <button id="j-guardar">Guardar marcados</button>
+      <button id="j-escribir" class="prim" title="Guarda y escribe GENRE en los ficheros">Guardar y escribir marcados</button>
+    </div>
+    <div id="j-info" class="dim"></div>
+    <div id="j-grid" class="j-grid"></div>
+  </section>
+  <details class="j-extra">
+    <summary>Logros y últimos 30 días</summary>
+    <div id="j-dias" class="j-dias"></div>
+    <div id="j-logros" class="j-logros"></div>
+  </details>
+  <audio id="j-audio" preload="auto"></audio>
+</main>
+
+<dialog id="dlg-nuevo">
+  <form method="dialog">
+    <h3>«<span id="n-texto"></span>»</h3>
+    <label><input type="radio" name="n-modo" value="alias" checked> Es otra forma de escribir</label>
+    <select id="n-alias"></select>
+    <label><input type="radio" name="n-modo" value="sub"> Nuevo subgénero de</label>
+    <select id="n-padre"></select>
+    <div class="dim" id="n-rym"></div>
+    <label><input type="radio" name="n-modo" value="super"> Nuevo supergénero</label>
+    <label>Nombre: <input id="n-nombre"></label>
+    <div class="acciones"><button value="cancel">Cancelar</button><button id="n-ok" value="ok" class="prim">Aceptar</button></div>
+  </form>
+</dialog>
+
+<script src="/static/app.js"></script>
+<script src="/static/juego.js"></script>
+</body>
+</html>

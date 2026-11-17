@@ -1,0 +1,19 @@
+services:
+  generos:
+    build: .
+    container_name: generos
+    restart: unless-stopped
+    user: "${UID_GID:-1000:1000}"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - FLASK_HOST=0.0.0.0
+      - FLASK_PORT=5000
+    volumes:
+      - ./data:/app/data
+      - ${MUSICA:?Pon en .env la carpeta de tu música (MUSICA)}:/music
+      # Opcional: must_hear.db y genres.json de escuchowsky, como fuente más de géneros
+      # - /ruta/a/escuchowsky/db:/data/escuchowsky:ro
+    ports:
+      - "${PUERTO:-8785}:5000"
