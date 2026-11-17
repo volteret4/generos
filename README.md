@@ -22,11 +22,9 @@ En `.env`, pon en `MUSICA` la carpeta de tu música (un disco por carpeta). Las 
 docker compose up -d --build
 ```
 
-Abre <http://localhost:8785> y pulsa **Escanear**. La primera vez lee todas las etiquetas; después solo lo que haya cambiado. Para que se reescanee cada noche, añade esta línea a tu cron:
+Abre <http://localhost:8785> y pulsa **Escanear**. La primera vez lee todas las etiquetas; después solo lo que haya cambiado.
 
-```bash
-0 1 * * * docker exec generos python3 -c 'import biblioteca; biblioteca.scan()'
-```
+**Actualización automática:** el compose trae su propia [Ofelia](https://github.com/mcuadros/ofelia), que vuelve a escanear cada noche a la 01:20 (trabajo `generos-scan`, el mismo horario que en REPEAT-ONE). Para cambiar la hora, edita la etiqueta `ofelia.job-exec.generos-scan.schedule` (`seg min hora día mes día-semana`); para desactivarla, `docker compose stop ofelia`. Esta Ofelia solo ve los contenedores de este repo y necesita el socket de Docker en solo lectura.
 
 La web no tiene contraseña y puede escribir en tu música: no la abras a internet.
 
